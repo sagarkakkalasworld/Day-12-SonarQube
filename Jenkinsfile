@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('SCM Checkout') {
             steps{
-           git branch: 'main', url: 'https://github.com/sagarkakkalasworld/Day12.git'
+           git branch: 'main', url: 'https://github.com/sagarkakkalasworld/Day-12-SonarQube.git'
             }
         }
         // Uncomment the below stage if you configured SonarQube
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Remove existing Day6 directory and clone the latest repo
-                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'sudo rm -rf /home/ubuntu/Day* && git clone https://github.com/sagarkakkalasworld/Day12.git /home/ubuntu/Day12'"
+                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'sudo rm -rf /home/ubuntu/Day* && git clone https://github.com/sagarkakkalasworld/Day-12-SonarQube.git /home/ubuntu/Day-12-SonarQube'"
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     // Execute Ansible playbook on Build Server
-                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'ansible-playbook /home/ubuntu/Day12/Ansible/build.yaml'"
+                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'ansible-playbook /home/ubuntu/Day-12-SonarQube/Ansible/build.yaml'"
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     // Execute deployment playbook on Deploy Server
-                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'ansible-playbook /home/ubuntu/Day12/Ansible/deploy.yaml'"
+                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'ansible-playbook /home/ubuntu/Day-12-SonarQube/Ansible/deploy.yaml'"
                 }
             }
         }
