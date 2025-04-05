@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        // Change build server IP acccording to your AWS EC2 Build server Private Ip
-        BUILD_SERVER_IP = '172.31.4.138'
-    }
-
     stages {
         stage('SCM Checkout') {
             steps{
@@ -23,31 +18,6 @@ pipeline {
                  }
              }
          }
-        stage('Cleanup and Clone Repository') {
-            steps {
-                script {
-                    // Remove existing Day6 directory and clone the latest repo
-                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'sudo rm -rf /home/ubuntu/Day* && git clone https://github.com/sagarkakkalasworld/Day-12-SonarQube.git /home/ubuntu/Day-12-SonarQube'"
-                }
-            }
-        }
 
-        stage('Build Docker images on Build Server') {
-            steps {
-                script {
-                    // Execute Ansible playbook on Build Server
-                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'ansible-playbook /home/ubuntu/Day-12-SonarQube/Ansible/build.yaml'"
-                }
-            }
-        }
-
-        stage('Deploy Script on Deploy Server') {
-            steps {
-                script {
-                    // Execute deployment playbook on Deploy Server
-                    sh "ssh ubuntu@${BUILD_SERVER_IP} 'ansible-playbook /home/ubuntu/Day-12-SonarQube/Ansible/deploy.yaml'"
-                }
-            }
-        }
     }
 }
